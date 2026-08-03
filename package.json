@@ -1,0 +1,26 @@
+{
+  "name": "web_project_around_es",
+  "version": "1.0.0",
+  "description": "Around The U.S. es una página web interactiva donde los usuarios pueden explorar lugares interesantes de Estados Unidos mediante tarjetas con imágenes y nombres.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MqgiaG/web_project_around_es.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MqgiaG/web_project_around_es/issues"
+  },
+  "homepage": "https://github.com/MqgiaG/web_project_around_es#readme",
+  "devDependencies": {
+    "typescript": "5.9"
+  }
+}

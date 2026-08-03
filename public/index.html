@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="ie=edge" http-equiv="X-UA-Compatible" />
+    <title>Around The U.S.</title>
+    <link rel="stylesheet" href="./pages/index.css" />
+  </head>
+
+  <body class="page">
+    <div class="page__content">
+      <header class="header page__section">
+        <img
+          alt="Logotipo Around The U.S."
+          class="logo header__logo"
+          src="./images/logo.svg"
+        />
+      </header>
+
+      <main class="content">
+        <section class="profile page__section">
+          <!-- Contenedor del Avatar con Overlay de Edición -->
+          <div class="profile__avatar-container">
+            <img
+              class="profile__avatar profile__image"
+              src="./images/avatar.jpg"
+              alt="Avatar"
+            />
+            <button
+              aria-label="Editar avatar"
+              class="profile__avatar-edit-button"
+              type="button"
+            ></button>
+          </div>
+
+          <div class="profile__info">
+            <h1 class="profile__name profile__title">Jacques Cousteau</h1>
+
+            <button
+              aria-label="Editar perfil"
+              class="profile__edit-button"
+              type="button"
+            ></button>
+
+            <p class="profile__about profile__description">Explorador</p>
+          </div>
+
+          <button
+            aria-label="Agregar tarjeta"
+            class="profile__add-button"
+            type="button"
+          ></button>
+        </section>
+
+        <section class="cards page__section">
+          <ul class="cards__list"></ul>
+        </section>
+      </main>
+
+      <footer class="footer page__section">
+        <p class="footer__copyright">© 2025 Around The U.S.</p>
+      </footer>
+
+      <!-- 1. POPUP EDITAR PERFIL -->
+      <div class="popup" id="popup-edit-profile">
+        <div class="popup__content">
+          <button
+            aria-label="Cerrar ventana emergente"
+            class="popup__close"
+            type="button"
+          ></button>
+
+          <h3 class="popup__title">Editar perfil</h3>
+
+          <form class="popup__form" id="edit-profile-form" name="edit-profile-form">
+            <input
+              id="input-name"
+              class="popup__input popup__input_type_name"
+              name="name"
+              placeholder="Nombre"
+              type="text"
+              minlength="2"
+              maxlength="40"
+              required
+            />
+            <span class="input-name-error popup__error"></span>
+
+            <input
+              id="input-about"
+              class="popup__input popup__input_type_description"
+              name="about"
+              placeholder="Acerca de mí"
+              type="text"
+              minlength="2"
+              maxlength="200"
+              required
+            />
+            <span class="input-about-error popup__error"></span>
+
+            <button class="button popup__button" type="submit">
+              Guardar
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- 2. POPUP NUEVA TARJETA -->
+      <div class="popup" id="popup-add-card">
+        <div class="popup__content">
+          <button
+            aria-label="Cerrar ventana emergente"
+            class="popup__close"
+            type="button"
+          ></button>
+
+          <h3 class="popup__title">Nuevo lugar</h3>
+
+          <form class="popup__form" id="add-card-form" name="add-card-form">
+            <input
+              id="input-card-name"
+              class="popup__input popup__input_type_card-name"
+              name="title"
+              placeholder="Título"
+              type="text"
+              minlength="2"
+              maxlength="30"
+              required
+            />
+            <span class="input-card-name-error popup__error"></span>
+
+            <input
+              id="input-card-url"
+              class="popup__input popup__input_type_url"
+              name="link"
+              placeholder="Enlace a la imagen"
+              type="url"
+              required
+            />
+            <span class="input-card-url-error popup__error"></span>
+
+            <button class="button popup__button" type="submit">
+              Crear
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- 3. POPUP EDITAR AVATAR -->
+      <div class="popup" id="popup-edit-avatar">
+        <div class="popup__content">
+          <button
+            aria-label="Cerrar ventana emergente"
+            class="popup__close"
+            type="button"
+          ></button>
+
+          <h3 class="popup__title">Cambiar foto de perfil</h3>
+
+          <form class="popup__form" id="edit-avatar-form" name="edit-avatar-form">
+            <input
+              id="input-avatar-url"
+              class="popup__input popup__input_type_url"
+              name="avatar"
+              placeholder="Enlace a la nueva imagen"
+              type="url"
+              required
+            />
+            <span class="input-avatar-url-error popup__error"></span>
+
+            <button class="button popup__button" type="submit">
+              Guardar
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- 4. POPUP CONFIRMAR ELIMINACIÓN -->
+      <div class="popup" id="popup-delete">
+        <div class="popup__content">
+          <button
+            aria-label="Cerrar ventana emergente"
+            class="popup__close"
+            type="button"
+          ></button>
+
+          <h3 class="popup__title">¿Estás seguro/a?</h3>
+
+          <form class="popup__form" id="delete-card-form" name="delete-card-form">
+            <button class="button popup__button" type="submit">
+              Sí
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- 5. POPUP IMAGEN -->
+      <div class="popup" id="popup-image">
+        <div class="popup__content popup__content_content_image">
+          <button
+            aria-label="Cerrar ventana emergente"
+            class="popup__close"
+            type="button"
+          ></button>
+
+          <img class="popup__image" src="#" alt="" />
+          <p class="popup__caption"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEMPLATE TARJETA -->
+    <template id="card-template">
+      <li class="card">
+        <img class="card__image" src="" alt="" />
+
+        <button
+          aria-label="Eliminar tarjeta"
+          class="card__delete-button"
+          type="button"
+        ></button>
+
+        <div class="card__description">
+          <h2 class="card__title"></h2>
+
+          <button
+            aria-label="Botón Me gusta"
+            class="card__like-button"
+            type="button"
+          ></button>
+        </div>
+      </li>
+    </template>
+
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>
