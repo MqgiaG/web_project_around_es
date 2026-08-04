@@ -2,31 +2,30 @@
 
 ## Descripción
 
-Around The U.S. es una página web interactiva donde los usuarios pueden explorar lugares interesantes de Estados Unidos mediante tarjetas con imágenes y nombres.
+Around The U.S. es una aplicación web interactiva donde los usuarios pueden explorar y compartir lugares interesantes de Estados Unidos mediante tarjetas con imágenes y nombres.
 
-El proyecto fue desarrollado como parte del Proyecto 6 del bootcamp de Desarrollo Web, aplicando conceptos de HTML, CSS y JavaScript para crear una experiencia dinámica e interactiva.
+El proyecto fue refactorizado y desarrollado con **TypeScript** y **Programación Orientada a Objetos (POO)**, conectándose a una **API REST** para gestionar datos en tiempo real mediante el patrón `async/await`.
 
 ## Funcionalidad
 
-- Visualización de tarjetas de lugares mediante datos almacenados en un array.
-- Creación dinámica de tarjetas utilizando JavaScript y plantillas HTML.
-- Edición del nombre y descripción del perfil del usuario.
-- Agregar nuevas tarjetas con nombre e imagen.
-- Eliminar tarjetas existentes.
-- Sistema de "Me gusta" en las tarjetas.
-- Apertura de imágenes en un modal con vista ampliada.
-- Cierre de ventanas emergentes mediante botones, clic fuera del modal y tecla Escape.
-- Validación de formularios.
+- Carga inicial de tarjetas y datos del perfil del usuario directamente desde una API REST remota.
+- Creación y persistencia dinámica de nuevas tarjetas en el servidor.
+- Edición del nombre, descripción del perfil y actualización de la foto de avatar sincrónicamente con la API.
+- Eliminación de tarjetas propias con confirmación previa mediante modal.
+- Sistema de "Me gusta" interactivo sincronizado en tiempo real con la API.
+- Apertura de imágenes en modal con vista ampliada.
+- Cierre de ventanas emergentes mediante botones de cierre, clic en el overlay o la tecla `Escape`.
+- Validación de formularios en tiempo real con gestión de estado de botones.
 
 ## Tecnologías utilizadas
 
-- HTML5
-- CSS3
-- JavaScript
-- Metodología BEM para organización de clases CSS
-- Diseño responsivo
-- Git
-- GitHub
+- HTML5 (Semántico)
+- CSS3 (Metodología BEM y diseño responsivo)
+- TypeScript (Con tipado estricto e interfaces)
+- JavaScript / POO (Clases modulares para API, modales, formularios y tarjetas)
+- Consumo de API REST mediante `fetch` y `async/await`
+- Webpack (Empaquetado de módulos)
+- Git & GitHub Pages
 
 ## GitHub Pages
 

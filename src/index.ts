@@ -9,7 +9,7 @@ import { FormValidator } from "./components/FormValidator.js";
 import { validationConfig } from "./utils/constants.js";
 import { ICardData } from "./utils/types.js";
 
-// 1. Instancia de API con tu token real
+// 1. Instancia de API
 const api = new Api({
   baseUrl: "https://around-api.es.tripleten-services.com/v1",
   headers: {
@@ -18,7 +18,7 @@ const api = new Api({
   },
 });
 
-// 2. Información del Usuario (usando los selectores del HTML)
+// 2. Información del Usuario
 const userInfo = new UserInfo({
   nameSelector: ".profile__title",
   aboutSelector: ".profile__description",
@@ -42,8 +42,8 @@ const createCard = (data: ICardData) => {
     data,
     "#card-template",
     userId,
-    // Ver Imagen
-    (name, link) => imagePopup.open(name, link),
+    // Ver Imagen (Línea 46 corregida: pasa un objeto { name, link })
+    (name, link) => imagePopup.open({ name, link }),
     // Borrar Tarjeta
     (cardId, cardElement) => {
       popupConfirmation.setConfirmAction(async () => {
@@ -67,7 +67,6 @@ const createCard = (data: ICardData) => {
           ? await api.unlikeCard(cardId)
           : await api.likeCard(cardId);
         
-        // CORRECCIÓN AQUÍ: Verificamos si viene el dato explícito, si no, lo invertimos manualmente
         const newIsLiked = updatedCard.isLiked !== undefined ? updatedCard.isLiked : !isLiked;
         card.setLikes(newIsLiked);
       } catch (err) {
@@ -185,7 +184,7 @@ const enableValidation = (config: typeof validationConfig) => {
 
 enableValidation(validationConfig);
 
-// 10. Carga inicial asíncrona con Promise.all()
+// 10. Carga inicial asíncrona
 async function loadInitialData() {
   try {
     const [userData, initialCards] = await Promise.all([
@@ -193,10 +192,8 @@ async function loadInitialData() {
       api.getInitialCards(),
     ]);
 
-    // Establecer info del usuario e ID
     userInfo.setUserInfo(userData);
 
-    // Instanciar Section con datos de la API
     cardSection = new Section(
       {
         items: initialCards,

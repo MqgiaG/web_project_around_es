@@ -7,7 +7,7 @@ import { PopupWithConfirmation } from "./components/PopupWithConfirmation.js";
 import { UserInfo } from "./components/UserInfo.js";
 import { FormValidator } from "./components/FormValidator.js";
 import { validationConfig } from "./utils/constants.js";
-// 1. Instancia de API con tu token real
+// 1. Instancia de API
 const api = new Api({
     baseUrl: "https://around-api.es.tripleten-services.com/v1",
     headers: {
@@ -15,7 +15,7 @@ const api = new Api({
         "Content-Type": "application/json",
     },
 });
-// 2. Información del Usuario (usando los selectores del HTML)
+// 2. Información del Usuario
 const userInfo = new UserInfo({
     nameSelector: ".profile__title",
     aboutSelector: ".profile__description",
@@ -31,8 +31,8 @@ let cardSection;
 const createCard = (data) => {
     const userId = userInfo.getUserId();
     const card = new Card(data, "#card-template", userId, 
-    // Ver Imagen
-    (name, link) => imagePopup.open(name, link), 
+    // Ver Imagen (Línea 46 corregida: pasa un objeto { name, link })
+    (name, link) => imagePopup.open({ name, link }), 
     // Borrar Tarjeta
     (cardId, cardElement) => {
         popupConfirmation.setConfirmAction(async () => {
@@ -57,7 +57,6 @@ const createCard = (data) => {
             const updatedCard = isLiked
                 ? await api.unlikeCard(cardId)
                 : await api.likeCard(cardId);
-            // CORRECCIÓN AQUÍ: Verificamos si viene el dato explícito, si no, lo invertimos manualmente
             const newIsLiked = updatedCard.isLiked !== undefined ? updatedCard.isLiked : !isLiked;
             card.setLikes(newIsLiked);
         }
@@ -159,16 +158,14 @@ const enableValidation = (config) => {
     });
 };
 enableValidation(validationConfig);
-// 10. Carga inicial asíncrona con Promise.all()
+// 10. Carga inicial asíncrona
 async function loadInitialData() {
     try {
         const [userData, initialCards] = await Promise.all([
             api.getUserInfo(),
             api.getInitialCards(),
         ]);
-        // Establecer info del usuario e ID
         userInfo.setUserInfo(userData);
-        // Instanciar Section con datos de la API
         cardSection = new Section({
             items: initialCards,
             renderer: (cardData) => {

@@ -6,6 +6,8 @@ export class Card {
         this._link = data.link;
         this._id = data._id;
         this._isLiked = data.isLiked || false;
+        // Si owner viene como objeto o string según la respuesta de la API:
+        this._ownerId = typeof data.owner === "object" ? data.owner?._id : data.owner;
         this._cardSelector = cardSelector;
         this._userId = userId;
         this._handleCardClick = handleCardClick;
@@ -22,6 +24,7 @@ export class Card {
         this._element = this._getTemplate();
         const cardImage = this._element.querySelector(".card__image");
         const cardTitle = this._element.querySelector(".card__title");
+        const deleteButton = this._element.querySelector(".card__delete-button");
         this._likeButton = this._element.querySelector(".card__like-button");
         if (cardImage) {
             cardImage.src = this._link;
@@ -29,6 +32,10 @@ export class Card {
         }
         if (cardTitle) {
             cardTitle.textContent = this._name;
+        }
+        // 🛠️ 1. Ocultar el botón de borrar si la tarjeta no fue creada por el usuario actual
+        if (this._ownerId && this._ownerId !== this._userId && deleteButton) {
+            deleteButton.remove();
         }
         this._renderLikes();
         this._setEventListeners();
@@ -38,15 +45,13 @@ export class Card {
         this._isLiked = isLiked;
         this._renderLikes();
     }
+    // 🛠️ 2. Dejar solo la clase activa correcta sin duplicar reglas sin efecto
     _renderLikes() {
         if (this._likeButton) {
             if (this._isLiked) {
-                // Agregamos las variaciones de clases CSS activas más comunes para asegurar que cambie de color
-                this._likeButton.classList.add("card__like-button_active");
                 this._likeButton.classList.add("card__like-button_is-active");
             }
             else {
-                this._likeButton.classList.remove("card__like-button_active");
                 this._likeButton.classList.remove("card__like-button_is-active");
             }
         }

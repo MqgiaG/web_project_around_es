@@ -5,6 +5,7 @@ export class Card {
   private _link: string;
   private _id: string;
   private _isLiked: boolean;
+  private _ownerId?: string; // Guardamos el ID del creador de la tarjeta
   private _cardSelector: string;
   private _userId: string;
   private _handleCardClick: (name: string, link: string) => void;
@@ -26,6 +27,10 @@ export class Card {
     this._link = data.link;
     this._id = data._id;
     this._isLiked = data.isLiked || false;
+    
+    // Si owner viene como objeto o string según la respuesta de la API:
+    this._ownerId = typeof data.owner === "object" ? data.owner?._id : data.owner;
+    
     this._cardSelector = cardSelector;
     this._userId = userId;
     this._handleCardClick = handleCardClick;
@@ -47,6 +52,7 @@ export class Card {
     this._element = this._getTemplate();
     const cardImage = this._element.querySelector(".card__image") as HTMLImageElement;
     const cardTitle = this._element.querySelector(".card__title") as HTMLElement;
+    const deleteButton = this._element.querySelector(".card__delete-button") as HTMLButtonElement | null;
 
     this._likeButton = this._element.querySelector(".card__like-button") as HTMLButtonElement;
 
@@ -57,6 +63,11 @@ export class Card {
 
     if (cardTitle) {
       cardTitle.textContent = this._name;
+    }
+
+    // 🛠️ 1. Ocultar el botón de borrar si la tarjeta no fue creada por el usuario actual
+    if (this._ownerId && this._ownerId !== this._userId && deleteButton) {
+      deleteButton.remove();
     }
 
     this._renderLikes();
@@ -70,14 +81,12 @@ export class Card {
     this._renderLikes();
   }
 
+  // 🛠️ 2. Dejar solo la clase activa correcta sin duplicar reglas sin efecto
   private _renderLikes(): void {
     if (this._likeButton) {
       if (this._isLiked) {
-        // Agregamos las variaciones de clases CSS activas más comunes para asegurar que cambie de color
-        this._likeButton.classList.add("card__like-button_active");
         this._likeButton.classList.add("card__like-button_is-active");
       } else {
-        this._likeButton.classList.remove("card__like-button_active");
         this._likeButton.classList.remove("card__like-button_is-active");
       }
     }
